@@ -192,12 +192,34 @@ body {
 @media (max-width: 600px) {
     .assignment-card-header,
     .assignment-meta {
-        flex-direction: column;
-        align-items: flex-start;
+    flex-direction: column;
+    align-items: flex-start;
     }
 
     .section-header {
         align-items: flex-start;
         flex-direction: column;
     }
+}
+.assignment-meta-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.edit-button {
+    padding: 7px 14px;
+    border: 1px solid #2563eb;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #2563eb;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.edit-button:hover {
+    background: #2563eb;
+    color: #ffffff;
 }
