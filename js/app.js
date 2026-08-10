@@ -6,6 +6,7 @@ const courses = [
     "Software Engineering"
 ];
 
+
 const assignments = [
     {
         id: 1,
@@ -28,6 +29,7 @@ const assignments = [
         completed: false
     }
 ];
+
 
 const assignmentForm =
     document.getElementById("assignment-form");
@@ -53,11 +55,15 @@ const searchInput =
 const courseFilter =
     document.getElementById("course-filter");
 
+const deadlineSort =
+    document.getElementById("deadline-sort");
+
 
 function populateCourses() {
+
     courses.forEach((course) => {
 
-        // Populate assignment form course dropdown
+        // Assignment form course option
         const formOption =
             document.createElement("option");
 
@@ -67,7 +73,7 @@ function populateCourses() {
         courseSelect.appendChild(formOption);
 
 
-        // Populate assignment filter dropdown
+        // Course filter option
         const filterOption =
             document.createElement("option");
 
@@ -80,7 +86,9 @@ function populateCourses() {
 
 
 function formatDate(dateString) {
-    const date = new Date(`${dateString}T00:00:00`);
+
+    const date =
+        new Date(`${dateString}T00:00:00`);
 
     return date.toLocaleDateString("en-US", {
         year: "numeric",
@@ -91,11 +99,14 @@ function formatDate(dateString) {
 
 
 function getPriorityLabel(priority) {
-    return priority.charAt(0).toUpperCase() + priority.slice(1);
+
+    return priority.charAt(0).toUpperCase()
+        + priority.slice(1);
 }
 
 
 function getFilteredAssignments() {
+
     const searchQuery =
         searchInput.value.trim().toLowerCase();
 
@@ -122,23 +133,54 @@ function getFilteredAssignments() {
 }
 
 
+function sortAssignments(assignmentsToSort) {
+
+    const sortedAssignments =
+        [...assignmentsToSort];
+
+    if (deadlineSort.value === "latest") {
+
+        sortedAssignments.sort((a, b) => {
+            return new Date(b.dueDate)
+                - new Date(a.dueDate);
+        });
+
+    } else {
+
+        sortedAssignments.sort((a, b) => {
+            return new Date(a.dueDate)
+                - new Date(b.dueDate);
+        });
+    }
+
+    return sortedAssignments;
+}
+
+
 function renderAssignments() {
+
     assignmentList.innerHTML = "";
 
     const filteredAssignments =
         getFilteredAssignments();
 
+    const sortedAssignments =
+        sortAssignments(filteredAssignments);
+
+
     assignmentCount.textContent =
-        `${filteredAssignments.length} ${
-            filteredAssignments.length === 1
+        `${sortedAssignments.length} ${
+            sortedAssignments.length === 1
                 ? "assignment"
                 : "assignments"
         }`;
 
-    filteredAssignments.forEach((assignment) => {
+
+    sortedAssignments.forEach((assignment) => {
 
         const article =
             document.createElement("article");
+
 
         article.className =
             `assignment-card ${
@@ -147,26 +189,37 @@ function renderAssignments() {
                     : ""
             }`;
 
+
         article.innerHTML = `
+
             <div class="assignment-card-header">
 
                 <div>
-                    <h3>${assignment.title}</h3>
+
+                    <h3>
+                        ${assignment.title}
+                    </h3>
 
                     <p class="assignment-course">
                         ${assignment.course}
                     </p>
+
                 </div>
 
-                <span class="priority-badge priority-${assignment.priority}">
+
+                <span
+                    class="priority-badge priority-${assignment.priority}"
+                >
                     ${getPriorityLabel(assignment.priority)}
                 </span>
 
             </div>
 
+
             <p class="assignment-description">
                 ${assignment.description}
             </p>
+
 
             <div class="assignment-meta">
 
@@ -176,11 +229,14 @@ function renderAssignments() {
                         Due: ${formatDate(assignment.dueDate)}
                     </span>
 
-                    <span class="assignment-status ${
-                        assignment.completed
-                            ? "status-completed"
-                            : "status-pending"
-                    }">
+
+                    <span
+                        class="assignment-status ${
+                            assignment.completed
+                                ? "status-completed"
+                                : "status-pending"
+                        }"
+                    >
                         ${
                             assignment.completed
                                 ? "Completed"
@@ -189,6 +245,7 @@ function renderAssignments() {
                     </span>
 
                 </div>
+
 
                 <div class="assignment-actions">
 
@@ -204,6 +261,7 @@ function renderAssignments() {
                         }
                     </button>
 
+
                     <button
                         type="button"
                         class="edit-button"
@@ -211,6 +269,7 @@ function renderAssignments() {
                     >
                         Edit
                     </button>
+
 
                     <button
                         type="button"
@@ -225,8 +284,10 @@ function renderAssignments() {
             </div>
         `;
 
+
         assignmentList.appendChild(article);
     });
+
 
     attachAssignmentListeners();
 }
@@ -237,7 +298,9 @@ function attachAssignmentListeners() {
     const editButtons =
         document.querySelectorAll(".edit-button");
 
+
     editButtons.forEach((button) => {
+
         button.addEventListener("click", () => {
 
             const assignmentId =
@@ -251,16 +314,20 @@ function attachAssignmentListeners() {
     const deleteButtons =
         document.querySelectorAll(".delete-button");
 
+
     deleteButtons.forEach((button) => {
+
         button.addEventListener("click", () => {
 
             const assignmentId =
                 Number(button.dataset.assignmentId);
 
+
             const confirmed =
                 window.confirm(
                     "Are you sure you want to delete this assignment?"
                 );
+
 
             if (confirmed) {
                 deleteAssignment(assignmentId);
@@ -272,7 +339,9 @@ function attachAssignmentListeners() {
     const completeButtons =
         document.querySelectorAll(".complete-button");
 
+
     completeButtons.forEach((button) => {
+
         button.addEventListener("click", () => {
 
             const assignmentId =
@@ -285,35 +354,46 @@ function attachAssignmentListeners() {
 
 
 function editAssignment(id) {
+
     const assignment =
         assignments.find((item) => item.id === id);
+
 
     if (!assignment) {
         return;
     }
 
+
     document.getElementById("assignment-title").value =
         assignment.title;
+
 
     document.getElementById("course").value =
         assignment.course;
 
+
     document.getElementById("due-date").value =
         assignment.dueDate;
+
 
     document.getElementById("priority").value =
         assignment.priority;
 
+
     document.getElementById("description").value =
         assignment.description;
 
+
     assignmentForm.dataset.editingId = id;
+
 
     formTitle.textContent =
         "Edit Assignment";
 
+
     submitButton.textContent =
         "Save Changes";
+
 
     assignmentForm.scrollIntoView({
         behavior: "smooth",
@@ -323,90 +403,151 @@ function editAssignment(id) {
 
 
 function deleteAssignment(id) {
+
     const assignmentIndex =
-        assignments.findIndex((item) => item.id === id);
+        assignments.findIndex(
+            (item) => item.id === id
+        );
+
 
     if (assignmentIndex === -1) {
         return;
     }
 
-    assignments.splice(assignmentIndex, 1);
+
+    assignments.splice(
+        assignmentIndex,
+        1
+    );
+
 
     renderAssignments();
 }
 
 
 function toggleAssignmentCompletion(id) {
+
     const assignment =
-        assignments.find((item) => item.id === id);
+        assignments.find(
+            (item) => item.id === id
+        );
+
 
     if (!assignment) {
         return;
     }
 
+
     assignment.completed =
         !assignment.completed;
+
 
     renderAssignments();
 }
 
 
-assignmentForm.addEventListener("submit", (event) => {
+assignmentForm.addEventListener(
+    "submit",
+    (event) => {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const editingId =
-        Number(assignmentForm.dataset.editingId);
 
-    if (!editingId) {
-        return;
+        const editingId =
+            Number(
+                assignmentForm.dataset.editingId
+            );
+
+
+        if (!editingId) {
+            return;
+        }
+
+
+        const assignment =
+            assignments.find(
+                (item) => item.id === editingId
+            );
+
+
+        if (!assignment) {
+            return;
+        }
+
+
+        assignment.title =
+            document.getElementById(
+                "assignment-title"
+            ).value;
+
+
+        assignment.course =
+            document.getElementById(
+                "course"
+            ).value;
+
+
+        assignment.dueDate =
+            document.getElementById(
+                "due-date"
+            ).value;
+
+
+        assignment.priority =
+            document.getElementById(
+                "priority"
+            ).value;
+
+
+        assignment.description =
+            document.getElementById(
+                "description"
+            ).value;
+
+
+        delete assignmentForm.dataset.editingId;
+
+
+        formTitle.textContent =
+            "Add New Assignment";
+
+
+        submitButton.textContent =
+            "Add Assignment";
+
+
+        assignmentForm.reset();
+
+
+        renderAssignments();
     }
+);
 
-    const assignment =
-        assignments.find((item) => item.id === editingId);
 
-    if (!assignment) {
-        return;
+searchInput.addEventListener(
+    "input",
+    () => {
+        renderAssignments();
     }
-
-    assignment.title =
-        document.getElementById("assignment-title").value;
-
-    assignment.course =
-        document.getElementById("course").value;
-
-    assignment.dueDate =
-        document.getElementById("due-date").value;
-
-    assignment.priority =
-        document.getElementById("priority").value;
-
-    assignment.description =
-        document.getElementById("description").value;
-
-    delete assignmentForm.dataset.editingId;
-
-    formTitle.textContent =
-        "Add New Assignment";
-
-    submitButton.textContent =
-        "Add Assignment";
-
-    assignmentForm.reset();
-
-    renderAssignments();
-});
+);
 
 
-searchInput.addEventListener("input", () => {
-    renderAssignments();
-});
+courseFilter.addEventListener(
+    "change",
+    () => {
+        renderAssignments();
+    }
+);
 
 
-courseFilter.addEventListener("change", () => {
-    renderAssignments();
-});
+deadlineSort.addEventListener(
+    "change",
+    () => {
+        renderAssignments();
+    }
+);
 
 
 populateCourses();
+
 renderAssignments();
