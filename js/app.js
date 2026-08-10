@@ -16,7 +16,8 @@ const assignments = [
         dueDate: "2026-08-25",
         priority: "medium",
         description:
-            "Analyze the network topology provided in the assignment brief."
+            "Analyze the network topology provided in the assignment brief.",
+        completed: false
     }
 ];
 
@@ -56,7 +57,12 @@ function renderAssignments() {
     assignments.forEach((assignment) => {
         const article = document.createElement("article");
 
-        article.className = "assignment-card";
+        article.className =
+            `assignment-card ${
+                assignment.completed
+                    ? "assignment-completed"
+                    : ""
+            }`;
 
         article.innerHTML = `
             <div class="assignment-card-header">
@@ -87,26 +93,51 @@ function renderAssignments() {
                         Due: ${formatDate(assignment.dueDate)}
                     </span>
 
-                    <span class="assignment-status status-pending">
-                        Pending
+                    <span class="assignment-status ${
+                        assignment.completed
+                            ? "status-completed"
+                            : "status-pending"
+                    }">
+                        ${
+                            assignment.completed
+                                ? "Completed"
+                                : "Pending"
+                        }
                     </span>
 
                 </div>
 
-                <button
-                    type="button"
-                    class="edit-button"
-                    data-assignment-id="${assignment.id}"
-                >
-                    Edit
-                </button>
-                <button
-                    type="button"
-                    class="delete-button"
-                    data-assignment-id="${assignment.id}"
-                >
-                    Delete
-                </button>
+                <div class="assignment-actions">
+
+                    <button
+                        type="button"
+                        class="complete-button"
+                        data-assignment-id="${assignment.id}"
+                    >
+                        ${
+                            assignment.completed
+                                ? "Mark Pending"
+                                : "Complete"
+                        }
+                    </button>
+
+                    <button
+                        type="button"
+                        class="edit-button"
+                        data-assignment-id="${assignment.id}"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        type="button"
+                        class="delete-button"
+                        data-assignment-id="${assignment.id}"
+                    >
+                        Delete
+                    </button>
+
+                </div>
 
             </div>
         `;
@@ -131,24 +162,38 @@ function attachAssignmentListeners() {
         });
     });
 
+
     const deleteButtons =
         document.querySelectorAll(".delete-button");
 
     deleteButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-        const assignmentId =
-            Number(button.dataset.assignmentId);
+        button.addEventListener("click", () => {
+            const assignmentId =
+                Number(button.dataset.assignmentId);
 
-        const confirmed =
-            window.confirm(
-                "Are you sure you want to delete this assignment?"
-            );
+            const confirmed =
+                window.confirm(
+                    "Are you sure you want to delete this assignment?"
+                );
 
-        if (confirmed) {
-            deleteAssignment(assignmentId);
-        }
+            if (confirmed) {
+                deleteAssignment(assignmentId);
+            }
+        });
     });
-});
+
+
+    const completeButtons =
+        document.querySelectorAll(".complete-button");
+
+    completeButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const assignmentId =
+                Number(button.dataset.assignmentId);
+
+            toggleAssignmentCompletion(assignmentId);
+        });
+    });
 }
 
 
@@ -187,6 +232,7 @@ function editAssignment(id) {
     });
 }
 
+
 function deleteAssignment(id) {
     const assignmentIndex =
         assignments.findIndex((item) => item.id === id);
@@ -199,6 +245,21 @@ function deleteAssignment(id) {
 
     renderAssignments();
 }
+
+
+function toggleAssignmentCompletion(id) {
+    const assignment =
+        assignments.find((item) => item.id === id);
+
+    if (!assignment) {
+        return;
+    }
+
+    assignment.completed = !assignment.completed;
+
+    renderAssignments();
+}
+
 
 assignmentForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -245,4 +306,3 @@ assignmentForm.addEventListener("submit", (event) => {
 
 
 renderAssignments();
-
