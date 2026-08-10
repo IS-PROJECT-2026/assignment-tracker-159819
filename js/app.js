@@ -5,6 +5,7 @@ const courses = [
     "Cloud Computing",
     "Software Engineering"
 ];
+
 const assignments = [
     {
         id: 1,
@@ -28,24 +29,55 @@ const assignments = [
     }
 ];
 
-const assignmentForm = document.getElementById("assignment-form");
-const assignmentList = document.getElementById("assignment-list");
-const assignmentCount = document.querySelector(".assignment-count");
-const formTitle = document.getElementById("form-title");
-const submitButton = document.querySelector(".submit-button");
-const courseSelect = document.getElementById("course");
-const searchInput = document.getElementById("assignment-search");
+const assignmentForm =
+    document.getElementById("assignment-form");
+
+const assignmentList =
+    document.getElementById("assignment-list");
+
+const assignmentCount =
+    document.querySelector(".assignment-count");
+
+const formTitle =
+    document.getElementById("form-title");
+
+const submitButton =
+    document.querySelector(".submit-button");
+
+const courseSelect =
+    document.getElementById("course");
+
+const searchInput =
+    document.getElementById("assignment-search");
+
+const courseFilter =
+    document.getElementById("course-filter");
+
 
 function populateCourses() {
     courses.forEach((course) => {
-        const option = document.createElement("option");
 
-        option.value = course;
-        option.textContent = course;
+        // Populate assignment form course dropdown
+        const formOption =
+            document.createElement("option");
 
-        courseSelect.appendChild(option);
+        formOption.value = course;
+        formOption.textContent = course;
+
+        courseSelect.appendChild(formOption);
+
+
+        // Populate assignment filter dropdown
+        const filterOption =
+            document.createElement("option");
+
+        filterOption.value = course;
+        filterOption.textContent = course;
+
+        courseFilter.appendChild(filterOption);
     });
 }
+
 
 function formatDate(dateString) {
     const date = new Date(`${dateString}T00:00:00`);
@@ -61,33 +93,40 @@ function formatDate(dateString) {
 function getPriorityLabel(priority) {
     return priority.charAt(0).toUpperCase() + priority.slice(1);
 }
-function searchAssignments(query) {
-    const normalizedQuery =
-        query.trim().toLowerCase();
 
-    if (!normalizedQuery) {
-        return assignments;
-    }
+
+function getFilteredAssignments() {
+    const searchQuery =
+        searchInput.value.trim().toLowerCase();
+
+    const selectedCourse =
+        courseFilter.value;
 
     return assignments.filter((assignment) => {
-        const title =
-            assignment.title.toLowerCase();
 
-        const course =
-            assignment.course.toLowerCase();
+        const matchesSearch =
+            !searchQuery ||
+            assignment.title
+                .toLowerCase()
+                .includes(searchQuery) ||
+            assignment.course
+                .toLowerCase()
+                .includes(searchQuery);
 
-        return (
-            title.includes(normalizedQuery) ||
-            course.includes(normalizedQuery)
-        );
+        const matchesCourse =
+            !selectedCourse ||
+            assignment.course === selectedCourse;
+
+        return matchesSearch && matchesCourse;
     });
 }
+
 
 function renderAssignments() {
     assignmentList.innerHTML = "";
 
     const filteredAssignments =
-        searchAssignments(searchInput.value);
+        getFilteredAssignments();
 
     assignmentCount.textContent =
         `${filteredAssignments.length} ${
@@ -97,7 +136,9 @@ function renderAssignments() {
         }`;
 
     filteredAssignments.forEach((assignment) => {
-        const article = document.createElement("article");
+
+        const article =
+            document.createElement("article");
 
         article.className =
             `assignment-card ${
@@ -192,11 +233,13 @@ function renderAssignments() {
 
 
 function attachAssignmentListeners() {
+
     const editButtons =
         document.querySelectorAll(".edit-button");
 
     editButtons.forEach((button) => {
         button.addEventListener("click", () => {
+
             const assignmentId =
                 Number(button.dataset.assignmentId);
 
@@ -210,6 +253,7 @@ function attachAssignmentListeners() {
 
     deleteButtons.forEach((button) => {
         button.addEventListener("click", () => {
+
             const assignmentId =
                 Number(button.dataset.assignmentId);
 
@@ -230,6 +274,7 @@ function attachAssignmentListeners() {
 
     completeButtons.forEach((button) => {
         button.addEventListener("click", () => {
+
             const assignmentId =
                 Number(button.dataset.assignmentId);
 
@@ -264,9 +309,11 @@ function editAssignment(id) {
 
     assignmentForm.dataset.editingId = id;
 
-    formTitle.textContent = "Edit Assignment";
+    formTitle.textContent =
+        "Edit Assignment";
 
-    submitButton.textContent = "Save Changes";
+    submitButton.textContent =
+        "Save Changes";
 
     assignmentForm.scrollIntoView({
         behavior: "smooth",
@@ -297,13 +344,15 @@ function toggleAssignmentCompletion(id) {
         return;
     }
 
-    assignment.completed = !assignment.completed;
+    assignment.completed =
+        !assignment.completed;
 
     renderAssignments();
 }
 
 
 assignmentForm.addEventListener("submit", (event) => {
+
     event.preventDefault();
 
     const editingId =
@@ -337,17 +386,27 @@ assignmentForm.addEventListener("submit", (event) => {
 
     delete assignmentForm.dataset.editingId;
 
-    formTitle.textContent = "Add New Assignment";
+    formTitle.textContent =
+        "Add New Assignment";
 
-    submitButton.textContent = "Add Assignment";
+    submitButton.textContent =
+        "Add Assignment";
 
     assignmentForm.reset();
 
     renderAssignments();
 });
+
+
 searchInput.addEventListener("input", () => {
     renderAssignments();
 });
+
+
+courseFilter.addEventListener("change", () => {
+    renderAssignments();
+});
+
 
 populateCourses();
 renderAssignments();
