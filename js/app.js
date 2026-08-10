@@ -35,15 +35,26 @@ const formTitle = document.getElementById("form-title");
 const submitButton = document.querySelector(".submit-button");
 const courseSelect = document.getElementById("course");
 const searchInput = document.getElementById("assignment-search");
+const courseFilter = document.getElementById("course-filter");
 
 function populateCourses() {
     courses.forEach((course) => {
-        const option = document.createElement("option");
+        const formOption =
+            document.createElement("option");
 
-        option.value = course;
-        option.textContent = course;
+        formOption.value = course;
+        formOption.textContent = course;
 
-        courseSelect.appendChild(option);
+        courseSelect.appendChild(formOption);
+
+
+        const filterOption =
+            document.createElement("option");
+
+        filterOption.value = course;
+        filterOption.textContent = course;
+
+        courseFilter.appendChild(filterOption);
     });
 }
 
@@ -61,31 +72,43 @@ function formatDate(dateString) {
 function getPriorityLabel(priority) {
     return priority.charAt(0).toUpperCase() + priority.slice(1);
 }
-function searchAssignments(query) {
-    const normalizedQuery =
-        query.trim().toLowerCase();
 
-    if (!normalizedQuery) {
+function filterAssignments(course) {
+    if (!course) {
         return assignments;
     }
 
     return assignments.filter((assignment) => {
-        const title =
-            assignment.title.toLowerCase();
+        return assignment.course === course;
+    });
+}
+function getFilteredAssignments() {
+    const searchQuery =
+        searchInput.value.trim().toLowerCase();
 
-        const course =
-            assignment.course.toLowerCase();
+    const selectedCourse =
+        courseFilter.value;
 
-        return (
-            title.includes(normalizedQuery) ||
-            course.includes(normalizedQuery)
-        );
+    return assignments.filter((assignment) => {
+        const matchesSearch =
+            !searchQuery ||
+            assignment.title
+                .toLowerCase()
+                .includes(searchQuery) ||
+            assignment.course
+                .toLowerCase()
+                .includes(searchQuery);
+
+        const matchesCourse =
+            !selectedCourse ||
+            assignment.course === selectedCourse;
+
+        return matchesSearch && matchesCourse;
     });
 }
 
 function renderAssignments() {
     assignmentList.innerHTML = "";
-
     const filteredAssignments =
         searchAssignments(searchInput.value);
 
@@ -346,6 +369,9 @@ assignmentForm.addEventListener("submit", (event) => {
     renderAssignments();
 });
 searchInput.addEventListener("input", () => {
+    renderAssignments();
+});
+courseFilter.addEventListener("change", () => {
     renderAssignments();
 });
 
