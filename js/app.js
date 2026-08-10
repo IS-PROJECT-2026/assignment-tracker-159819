@@ -63,7 +63,6 @@ function populateCourses() {
 
     courses.forEach((course) => {
 
-        // Assignment form course option
         const formOption =
             document.createElement("option");
 
@@ -73,7 +72,6 @@ function populateCourses() {
         courseSelect.appendChild(formOption);
 
 
-        // Course filter option
         const filterOption =
             document.createElement("option");
 
@@ -105,6 +103,24 @@ function getPriorityLabel(priority) {
 }
 
 
+function isOverdue(assignment) {
+
+    if (assignment.completed) {
+        return false;
+    }
+
+    const today = new Date();
+
+    today.setHours(0, 0, 0, 0);
+
+
+    const dueDate =
+        new Date(`${assignment.dueDate}T00:00:00`);
+
+    return dueDate < today;
+}
+
+
 function getFilteredAssignments() {
 
     const searchQuery =
@@ -112,6 +128,7 @@ function getFilteredAssignments() {
 
     const selectedCourse =
         courseFilter.value;
+
 
     return assignments.filter((assignment) => {
 
@@ -124,9 +141,11 @@ function getFilteredAssignments() {
                 .toLowerCase()
                 .includes(searchQuery);
 
+
         const matchesCourse =
             !selectedCourse ||
             assignment.course === selectedCourse;
+
 
         return matchesSearch && matchesCourse;
     });
@@ -138,20 +157,26 @@ function sortAssignments(assignmentsToSort) {
     const sortedAssignments =
         [...assignmentsToSort];
 
+
     if (deadlineSort.value === "latest") {
 
         sortedAssignments.sort((a, b) => {
+
             return new Date(b.dueDate)
                 - new Date(a.dueDate);
+
         });
 
     } else {
 
         sortedAssignments.sort((a, b) => {
+
             return new Date(a.dueDate)
                 - new Date(b.dueDate);
+
         });
     }
+
 
     return sortedAssignments;
 }
@@ -161,8 +186,10 @@ function renderAssignments() {
 
     assignmentList.innerHTML = "";
 
+
     const filteredAssignments =
         getFilteredAssignments();
+
 
     const sortedAssignments =
         sortAssignments(filteredAssignments);
@@ -182,10 +209,18 @@ function renderAssignments() {
             document.createElement("article");
 
 
+        const assignmentIsOverdue =
+            isOverdue(assignment);
+
+
         article.className =
             `assignment-card ${
                 assignment.completed
                     ? "assignment-completed"
+                    : ""
+            } ${
+                assignmentIsOverdue
+                    ? "assignment-overdue"
                     : ""
             }`;
 
@@ -234,13 +269,17 @@ function renderAssignments() {
                         class="assignment-status ${
                             assignment.completed
                                 ? "status-completed"
-                                : "status-pending"
+                                : assignmentIsOverdue
+                                    ? "status-overdue"
+                                    : "status-pending"
                         }"
                     >
                         ${
                             assignment.completed
                                 ? "Completed"
-                                : "Pending"
+                                : assignmentIsOverdue
+                                    ? "Overdue"
+                                    : "Pending"
                         }
                     </span>
 
