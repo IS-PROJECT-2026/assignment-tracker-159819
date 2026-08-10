@@ -272,3 +272,25 @@ body {
 .assignment-completed h3 {
     text-decoration: line-through;
 }
+.search-container {
+    margin-bottom: 20px;
+}
+
+.search-container label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 600;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font: inherit;
+}
+
+.search-container input:focus {
+    outline: 2px solid #2563eb;
+    border-color: #2563eb;
+}
