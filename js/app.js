@@ -1,3 +1,10 @@
+const courses = [
+    "Database Systems",
+    "Computer Networks",
+    "Web Development",
+    "Cloud Computing",
+    "Software Engineering"
+];
 const assignments = [
     {
         id: 1,
@@ -26,7 +33,18 @@ const assignmentList = document.getElementById("assignment-list");
 const assignmentCount = document.querySelector(".assignment-count");
 const formTitle = document.getElementById("form-title");
 const submitButton = document.querySelector(".submit-button");
+const courseSelect = document.getElementById("course");
 
+function populateCourses() {
+    courses.forEach((course) => {
+        const option = document.createElement("option");
+
+        option.value = course;
+        option.textContent = course;
+
+        courseSelect.appendChild(option);
+    });
+}
 
 function formatDate(dateString) {
     const date = new Date(`${dateString}T00:00:00`);
@@ -304,5 +322,5 @@ assignmentForm.addEventListener("submit", (event) => {
     renderAssignments();
 });
 
-
+populateCourses();
 renderAssignments();
