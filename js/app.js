@@ -58,6 +58,21 @@ const courseFilter =
 const deadlineSort =
     document.getElementById("deadline-sort");
 
+const totalStat =
+    document.getElementById("total-stat");
+
+const pendingStat =
+    document.getElementById("pending-stat");
+
+const completedStat =
+    document.getElementById("completed-stat");
+
+const overdueStat =
+    document.getElementById("overdue-stat");
+
+const completionRateStat =
+    document.getElementById("completion-rate-stat");
+
 
 function populateCourses() {
 
@@ -179,6 +194,57 @@ function sortAssignments(assignmentsToSort) {
 
 
     return sortedAssignments;
+}
+
+
+function updateStatistics() {
+
+    const total =
+        assignments.length;
+
+
+    const completed =
+        assignments.filter(
+            (assignment) => assignment.completed
+        ).length;
+
+
+    const pending =
+        total - completed;
+
+
+    const overdue =
+        assignments.filter(
+            (assignment) => isOverdue(assignment)
+        ).length;
+
+
+    const completionRate =
+        total === 0
+            ? 0
+            : Math.round(
+                (completed / total) * 100
+            );
+
+
+    totalStat.textContent =
+        total;
+
+
+    pendingStat.textContent =
+        pending;
+
+
+    completedStat.textContent =
+        completed;
+
+
+    overdueStat.textContent =
+        overdue;
+
+
+    completionRateStat.textContent =
+        `${completionRate}%`;
 }
 
 
@@ -460,6 +526,8 @@ function deleteAssignment(id) {
     );
 
 
+    updateStatistics();
+
     renderAssignments();
 }
 
@@ -480,6 +548,8 @@ function toggleAssignmentCompletion(id) {
     assignment.completed =
         !assignment.completed;
 
+
+    updateStatistics();
 
     renderAssignments();
 }
@@ -558,6 +628,8 @@ assignmentForm.addEventListener(
         assignmentForm.reset();
 
 
+        updateStatistics();
+
         renderAssignments();
     }
 );
@@ -588,5 +660,7 @@ deadlineSort.addEventListener(
 
 
 populateCourses();
+
+updateStatistics();
 
 renderAssignments();
