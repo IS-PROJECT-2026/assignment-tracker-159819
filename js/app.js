@@ -113,11 +113,11 @@ function renderAssignments() {
         assignmentList.appendChild(article);
     });
 
-    attachEditListeners();
+    attachAssignmentListeners();
 }
 
 
-function attachEditListeners() {
+function attachAssignmentListeners() {
     const editButtons =
         document.querySelectorAll(".edit-button");
 
@@ -129,6 +129,25 @@ function attachEditListeners() {
             editAssignment(assignmentId);
         });
     });
+
+    const deleteButtons =
+        document.querySelectorAll(".delete-button");
+
+    deleteButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        const assignmentId =
+            Number(button.dataset.assignmentId);
+
+        const confirmed =
+            window.confirm(
+                "Are you sure you want to delete this assignment?"
+            );
+
+        if (confirmed) {
+            deleteAssignment(assignmentId);
+        }
+    });
+});
 }
 
 
@@ -167,6 +186,18 @@ function editAssignment(id) {
     });
 }
 
+function deleteAssignment(id) {
+    const assignmentIndex =
+        assignments.findIndex((item) => item.id === id);
+
+    if (assignmentIndex === -1) {
+        return;
+    }
+
+    assignments.splice(assignmentIndex, 1);
+
+    renderAssignments();
+}
 
 assignmentForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -213,3 +244,4 @@ assignmentForm.addEventListener("submit", (event) => {
 
 
 renderAssignments();
+
