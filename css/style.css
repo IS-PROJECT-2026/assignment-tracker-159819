@@ -2,79 +2,106 @@
     box-sizing: border-box;
 }
 
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #d0e0ef;
-    color: #1f2937;
+    background: #dbeafe;
+    color: #111827;
 }
+
 
 .app-container {
-    width: min(90%, 700px);
+    width: min(1100px, 94%);
     margin: 0 auto;
-    padding: 40px 0;
+    padding: 40px 0 60px;
 }
 
+
 .app-header {
-    text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 30px;
 }
+
 
 .app-header h1 {
     margin-bottom: 8px;
+    font-size: 2.2rem;
+    color: #172554;
 }
+
 
 .app-header p {
     margin: 0;
-    color: #6b7280;
+    color: #475569;
+    font-size: 1rem;
 }
 
-.assignment-form-section {
+
+.assignment-form-section,
+.assignments-section {
     background: #ffffff;
-    padding: 28px;
+    padding: 25px;
+    margin-bottom: 30px;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
 }
 
-.assignment-form-section h2 {
+
+.assignment-form-section h2,
+.assignments-section h2 {
     margin-top: 0;
-    margin-bottom: 24px;
+    color: #172554;
 }
+
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
-.form-group label {
+
+.form-group label,
+.search-container label,
+.filter-container label,
+.sort-container label {
     display: block;
     margin-bottom: 7px;
     font-weight: 600;
 }
 
+
 .form-group input,
 .form-group select,
-.form-group textarea {
+.form-group textarea,
+.search-container input,
+.filter-container select,
+.sort-container select {
     width: 100%;
     padding: 10px 12px;
-    border: 1px solid #d1d5db;
+    border: 1px solid #cbd5e1;
     border-radius: 6px;
     font: inherit;
+    background: #ffffff;
 }
+
 
 .form-group textarea {
     resize: vertical;
 }
 
+
 .form-group input:focus,
 .form-group select:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.search-container input:focus,
+.filter-container select:focus,
+.sort-container select:focus {
     outline: 2px solid #2563eb;
     border-color: #2563eb;
 }
 
+
 .submit-button {
-    width: 100%;
-    padding: 12px 16px;
+    padding: 10px 18px;
     border: none;
     border-radius: 6px;
     background: #2563eb;
@@ -84,64 +111,75 @@ body {
     cursor: pointer;
 }
 
+
 .submit-button:hover {
     background: #1d4ed8;
 }
 
 
-@media (max-width: 600px) {
-    .app-container {
-        width: 94%;
-        padding: 24px 0;
-    }
-
-    .assignment-form-section {
-        padding: 20px;
-    }
-}
-.assignments-section {
-    margin-top: 32px;
-}
-
 .section-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 16px;
+    gap: 15px;
+    margin-bottom: 20px;
 }
+
 
 .section-header h2 {
-    margin: 0;
+    margin-bottom: 0;
 }
+
 
 .assignment-count {
-    color: #6b7280;
-    font-size: 0.9rem;
+    color: #64748b;
+    font-size: 1rem;
 }
 
+
+.search-container {
+    margin-bottom: 18px;
+}
+
+
+.filter-container {
+    margin-bottom: 18px;
+}
+
+
+.sort-container {
+    margin-bottom: 25px;
+}
+
+
 .assignment-list {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 16px;
 }
 
+
 .assignment-card {
-    background: #ffffff;
     padding: 20px;
-    border-radius: 10px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #f8fafc;
 }
+
 
 .assignment-card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 16px;
+    gap: 20px;
 }
+
 
 .assignment-card h3 {
     margin: 0 0 6px;
+    color: #172554;
 }
+
 
 .assignment-course {
     margin: 0;
@@ -149,171 +187,168 @@ body {
     font-weight: 600;
 }
 
+
 .assignment-description {
     margin: 16px 0;
+    color: #475569;
     line-height: 1.5;
 }
 
-.assignment-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 16px;
-    padding-top: 12px;
-    border-top: 1px solid #e5e7eb;
-    color: #6b7280;
-    font-size: 0.9rem;
-}
 
-.priority-badge,
-.assignment-status {
-    display: inline-block;
+.priority-badge {
     padding: 5px 10px;
     border-radius: 999px;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    white-space: nowrap;
 }
+
 
 .priority-high {
     background: #fee2e2;
     color: #991b1b;
 }
 
+
 .priority-medium {
     background: #fef3c7;
     color: #92400e;
 }
 
-.status-pending {
-    background: #e5e7eb;
-    color: #374151;
+
+.priority-low {
+    background: #dcfce7;
+    color: #166534;
 }
 
-@media (max-width: 600px) {
-    .assignment-card-header,
-    .assignment-meta {
-    flex-direction: column;
-    align-items: flex-start;
-    }
 
-    .section-header {
-        align-items: flex-start;
-        flex-direction: column;
-    }
+.assignment-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
 }
+
+
 .assignment-meta-info {
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    gap: 15px;
+    color: #475569;
+    font-size: 0.95rem;
 }
 
-.edit-button {
-    padding: 7px 14px;
-    border: 1px solid #2563eb;
-    border-radius: 6px;
-    background: #ffffff;
-    color: #2563eb;
-    font: inherit;
+
+.assignment-status {
+    padding: 4px 9px;
+    border-radius: 999px;
     font-weight: 600;
-    cursor: pointer;
 }
 
-.edit-button:hover {
-    background: #2563eb;
-    color: #ffffff;
-}
-.assignment-actions {
-    display: flex;
-    gap: 8px;
+
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
 }
 
-.delete-button {
-    padding: 7px 14px;
-    border: 1px solid #dc2626;
-    border-radius: 6px;
-    background: #ffffff;
-    color: #dc2626;
-    font: inherit;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.delete-button:hover {
-    background: #dc2626;
-    color: #ffffff;
-}
-.complete-button {
-    padding: 7px 14px;
-    border: 1px solid #16a34a;
-    border-radius: 6px;
-    background: #ffffff;
-    color: #15803d;
-    font: inherit;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.complete-button:hover {
-    background: #16a34a;
-    color: #ffffff;
-}
 
 .status-completed {
     background: #dcfce7;
     color: #166534;
 }
 
+
+.assignment-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+
+.assignment-actions button {
+    padding: 7px 14px;
+    border-radius: 6px;
+    background: #ffffff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+.complete-button {
+    border: 1px solid #16a34a;
+    color: #15803d;
+}
+
+
+.complete-button:hover {
+    background: #16a34a;
+    color: #ffffff;
+}
+
+
+.edit-button {
+    border: 1px solid #2563eb;
+    color: #2563eb;
+}
+
+
+.edit-button:hover {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+
+.delete-button {
+    border: 1px solid #dc2626;
+    color: #dc2626;
+}
+
+
+.delete-button:hover {
+    background: #dc2626;
+    color: #ffffff;
+}
+
+
 .assignment-completed {
     opacity: 0.75;
 }
 
+
 .assignment-completed h3 {
     text-decoration: line-through;
 }
-.search-container {
-    margin-bottom: 20px;
-}
 
-.search-container label {
-    display: block;
-    margin-bottom: 7px;
-    font-weight: 600;
-}
 
-.search-container input {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    font: inherit;
-}
+@media (max-width: 700px) {
 
-.search-container input:focus {
-    outline: 2px solid #2563eb;
-    border-color: #2563eb;
-}
-.filter-container {
-    margin-bottom: 20px;
-}
+    .app-container {
+        width: 92%;
+        padding-top: 25px;
+    }
 
-.filter-container label {
-    display: block;
-    margin-bottom: 7px;
-    font-weight: 600;
-}
 
-.filter-container select {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    background: #ffffff;
-    font: inherit;
-}
+    .assignment-card-header,
+    .assignment-meta,
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
-.filter-container select:focus {
-    outline: 2px solid #2563eb;
-    border-color: #2563eb;
+
+    .assignment-meta-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+
+    .assignment-actions {
+        width: 100%;
+    }
+
+
+    .assignment-actions button {
+        flex: 1;
+    }
 }
