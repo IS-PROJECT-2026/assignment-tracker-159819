@@ -243,3 +243,31 @@ body {
     background: #dc2626;
     color: #ffffff;
 }
+.complete-button {
+    padding: 7px 14px;
+    border: 1px solid #16a34a;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #15803d;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.complete-button:hover {
+    background: #16a34a;
+    color: #ffffff;
+}
+
+.status-completed {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.assignment-completed {
+    opacity: 0.75;
+}
+
+.assignment-completed h3 {
+    text-decoration: line-through;
+}
