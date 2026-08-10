@@ -58,6 +58,9 @@ const courseFilter =
 const deadlineSort =
     document.getElementById("deadline-sort");
 
+
+/* Statistics elements */
+
 const totalStat =
     document.getElementById("total-stat");
 
@@ -72,6 +75,21 @@ const overdueStat =
 
 const completionRateStat =
     document.getElementById("completion-rate-stat");
+
+
+/* Progress elements */
+
+const progressText =
+    document.getElementById("progress-text");
+
+const progressPercentage =
+    document.getElementById("progress-percentage");
+
+const progressBar =
+    document.getElementById("progress-bar");
+
+const assignmentProgress =
+    document.getElementById("assignment-progress");
 
 
 function populateCourses() {
@@ -245,6 +263,42 @@ function updateStatistics() {
 
     completionRateStat.textContent =
         `${completionRate}%`;
+
+
+    updateProgressIndicator(
+        total,
+        completed,
+        completionRate
+    );
+}
+
+
+function updateProgressIndicator(
+    total,
+    completed,
+    completionRate
+) {
+
+    progressText.textContent =
+        `${completed} of ${total} ${
+            total === 1
+                ? "assignment"
+                : "assignments"
+        } completed`;
+
+
+    progressPercentage.textContent =
+        `${completionRate}%`;
+
+
+    progressBar.style.width =
+        `${completionRate}%`;
+
+
+    assignmentProgress.setAttribute(
+        "aria-valuenow",
+        completionRate
+    );
 }
 
 
