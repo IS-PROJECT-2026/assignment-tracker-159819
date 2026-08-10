@@ -145,7 +145,8 @@ body {
 
 .assignment-course {
     margin: 0;
-    color: #6b7280;
+    color: #2563eb;
+    font-weight: 600;
 }
 
 .assignment-description {
