@@ -6,7 +6,8 @@ const assignments = [
         dueDate: "2026-08-20",
         priority: "high",
         description:
-            "Design and normalize a database for the assigned case study."
+            "Design and normalize a database for the assigned case study.",
+        completed: false
     },
     {
         id: 2,
