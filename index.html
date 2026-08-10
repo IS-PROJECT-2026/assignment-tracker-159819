@@ -3,11 +3,17 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Assignment Tracker</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
 </head>
 
 <body>
@@ -17,7 +23,9 @@
         <!-- Application Header -->
         <header class="app-header">
 
-            <h1>Assignment Tracker</h1>
+            <h1>
+                Assignment Tracker
+            </h1>
 
             <p>
                 Keep track of your academic assignments and deadlines.
@@ -64,9 +72,11 @@
                         id="course"
                         name="course"
                     >
+
                         <option value="">
                             Select course
                         </option>
+
                     </select>
 
                 </div>
@@ -97,6 +107,7 @@
                         id="priority"
                         name="priority"
                     >
+
                         <option value="">
                             Select priority
                         </option>
@@ -112,6 +123,7 @@
                         <option value="high">
                             High
                         </option>
+
                     </select>
 
                 </div>
@@ -141,6 +153,107 @@
                 </button>
 
             </form>
+
+        </section>
+
+
+        <!-- Assignment Statistics -->
+        <section
+            class="statistics-section"
+            aria-labelledby="statistics-title"
+        >
+
+            <div class="section-header">
+
+                <h2 id="statistics-title">
+                    Assignment Overview
+                </h2>
+
+            </div>
+
+
+            <div class="statistics-grid">
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Total
+                    </span>
+
+                    <strong
+                        id="total-stat"
+                        class="stat-value"
+                    >
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Pending
+                    </span>
+
+                    <strong
+                        id="pending-stat"
+                        class="stat-value"
+                    >
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Completed
+                    </span>
+
+                    <strong
+                        id="completed-stat"
+                        class="stat-value"
+                    >
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Overdue
+                    </span>
+
+                    <strong
+                        id="overdue-stat"
+                        class="stat-value"
+                    >
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <span class="stat-label">
+                        Completion Rate
+                    </span>
+
+                    <strong
+                        id="completion-rate-stat"
+                        class="stat-value"
+                    >
+                        0%
+                    </strong>
+
+                </div>
+
+            </div>
 
         </section>
 
