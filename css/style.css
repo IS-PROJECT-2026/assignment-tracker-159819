@@ -257,6 +257,18 @@ body {
 }
 
 
+.status-overdue {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+
+.assignment-overdue {
+    border-color: #dc2626;
+    background: #fff7f7;
+}
+
+
 .assignment-actions {
     display: flex;
     gap: 8px;
@@ -317,6 +329,12 @@ body {
 
 .assignment-completed h3 {
     text-decoration: line-through;
+}
+
+
+.assignment-completed.assignment-overdue {
+    border-color: #cbd5e1;
+    background: #f8fafc;
 }
 
 
