@@ -99,6 +99,13 @@ function renderAssignments() {
                 >
                     Edit
                 </button>
+                <button
+                    type="button"
+                    class="delete-button"
+                    data-assignment-id="${assignment.id}"
+                >
+                    Delete
+                </button>
 
             </div>
         `;

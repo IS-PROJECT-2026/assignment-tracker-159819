@@ -223,3 +223,23 @@ body {
     background: #2563eb;
     color: #ffffff;
 }
+.assignment-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.delete-button {
+    padding: 7px 14px;
+    border: 1px solid #dc2626;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #dc2626;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background: #dc2626;
+    color: #ffffff;
+}
