@@ -1,13 +1,7 @@
-const courses = [
-    "Database Systems",
-    "Computer Networks",
-    "Web Development",
-    "Cloud Computing",
-    "Software Engineering"
-];
+const STORAGE_KEY = "assignmentTracker.assignments";
 
 
-const assignments = [
+const defaultAssignments = [
     {
         id: 1,
         title: "Database Management CAT",
@@ -29,6 +23,90 @@ const assignments = [
         completed: false
     }
 ];
+
+
+const courses = [
+    "Database Systems",
+    "Computer Networks",
+    "Web Development",
+    "Cloud Computing",
+    "Software Engineering"
+];
+
+
+/*
+ * Load assignments from localStorage.
+ *
+ * If saved data exists and is valid, use it.
+ * Otherwise, use the default assignments.
+ */
+function loadAssignments() {
+
+    try {
+
+        const savedAssignments =
+            localStorage.getItem(STORAGE_KEY);
+
+
+        if (!savedAssignments) {
+            return [...defaultAssignments];
+        }
+
+
+        const parsedAssignments =
+            JSON.parse(savedAssignments);
+
+
+        if (!Array.isArray(parsedAssignments)) {
+            return [...defaultAssignments];
+        }
+
+
+        return parsedAssignments;
+
+    } catch (error) {
+
+        console.error(
+            "Unable to load assignments from localStorage:",
+            error
+        );
+
+
+        return [...defaultAssignments];
+    }
+}
+
+
+/*
+ * Save the current assignments array
+ * to localStorage.
+ */
+function saveAssignments() {
+
+    try {
+
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(assignments)
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Unable to save assignments to localStorage:",
+            error
+        );
+    }
+}
+
+
+/*
+ * Application data.
+ *
+ * The data is loaded from localStorage
+ * when the application starts.
+ */
+const assignments = loadAssignments();
 
 
 const assignmentForm =
@@ -156,6 +234,7 @@ function isOverdue(assignment) {
     if (assignment.completed) {
         return false;
     }
+
 
     const today = new Date();
 
@@ -500,7 +579,7 @@ function updateProgressIndicator(
 }
 
 
-/* Empty state */
+/* Empty states */
 
 function renderEmptyState(type) {
 
@@ -863,6 +942,8 @@ function deleteAssignment(id) {
     );
 
 
+    saveAssignments();
+
     updateStatistics();
 
     renderAssignments();
@@ -887,6 +968,8 @@ function toggleAssignmentCompletion(id) {
     assignment.completed =
         !assignment.completed;
 
+
+    saveAssignments();
 
     updateStatistics();
 
@@ -985,6 +1068,13 @@ assignmentForm.addEventListener(
                 newAssignment
             );
         }
+
+
+        /*
+         * Persist the updated data after
+         * either creating or editing.
+         */
+        saveAssignments();
 
 
         delete assignmentForm.dataset.editingId;
