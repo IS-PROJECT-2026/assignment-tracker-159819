@@ -45,7 +45,11 @@
                 Add New Assignment
             </h2>
 
-            <form id="assignment-form">
+
+            <form
+                id="assignment-form"
+                novalidate
+            >
 
                 <div class="form-group">
 
@@ -58,7 +62,15 @@
                         id="assignment-title"
                         name="title"
                         placeholder="e.g. Database Management CAT"
+                        required
+                        maxlength="100"
                     >
+
+                    <p
+                        id="title-error"
+                        class="form-error"
+                        role="alert"
+                    ></p>
 
                 </div>
 
@@ -72,6 +84,7 @@
                     <select
                         id="course"
                         name="course"
+                        required
                     >
 
                         <option value="">
@@ -79,6 +92,12 @@
                         </option>
 
                     </select>
+
+                    <p
+                        id="course-error"
+                        class="form-error"
+                        role="alert"
+                    ></p>
 
                 </div>
 
@@ -93,7 +112,14 @@
                         type="date"
                         id="due-date"
                         name="due-date"
+                        required
                     >
+
+                    <p
+                        id="due-date-error"
+                        class="form-error"
+                        role="alert"
+                    ></p>
 
                 </div>
 
@@ -107,6 +133,7 @@
                     <select
                         id="priority"
                         name="priority"
+                        required
                     >
 
                         <option value="">
@@ -127,6 +154,12 @@
 
                     </select>
 
+                    <p
+                        id="priority-error"
+                        class="form-error"
+                        role="alert"
+                    ></p>
+
                 </div>
 
 
@@ -141,7 +174,15 @@
                         name="description"
                         rows="4"
                         placeholder="Add any additional details..."
+                        required
+                        maxlength="500"
                     ></textarea>
+
+                    <p
+                        id="description-error"
+                        class="form-error"
+                        role="alert"
+                    ></p>
 
                 </div>
 
