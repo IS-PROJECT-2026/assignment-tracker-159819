@@ -27,6 +27,8 @@ The Assignment Tracker allows students to record, organize, and monitor their ac
 - GitHub
 - GitHub Pages
 
-## Project Status
+## Live Deployment
 
-🚧 Under development
+https://is-project-2026.github.io/assignment-tracker-159819/
+
+
