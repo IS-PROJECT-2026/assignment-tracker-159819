@@ -92,6 +92,21 @@ const assignmentProgress =
     document.getElementById("assignment-progress");
 
 
+/* Validation elements */
+
+const titleInput =
+    document.getElementById("assignment-title");
+
+const dueDateInput =
+    document.getElementById("due-date");
+
+const priorityInput =
+    document.getElementById("priority");
+
+const descriptionInput =
+    document.getElementById("description");
+
+
 function populateCourses() {
 
     courses.forEach((course) => {
@@ -151,6 +166,203 @@ function isOverdue(assignment) {
         new Date(`${assignment.dueDate}T00:00:00`);
 
     return dueDate < today;
+}
+
+
+function getTodayDateString() {
+
+    const today = new Date();
+
+    const year =
+        today.getFullYear();
+
+    const month =
+        String(today.getMonth() + 1)
+            .padStart(2, "0");
+
+    const day =
+        String(today.getDate())
+            .padStart(2, "0");
+
+
+    return `${year}-${month}-${day}`;
+}
+
+
+function clearValidationErrors() {
+
+    const errorElements =
+        document.querySelectorAll(".form-error");
+
+
+    errorElements.forEach((element) => {
+        element.textContent = "";
+    });
+
+
+    const invalidFields =
+        document.querySelectorAll(".input-invalid");
+
+
+    invalidFields.forEach((field) => {
+        field.classList.remove("input-invalid");
+    });
+}
+
+
+function setValidationError(
+    field,
+    errorId,
+    message
+) {
+
+    const errorElement =
+        document.getElementById(errorId);
+
+
+    errorElement.textContent =
+        message;
+
+
+    field.classList.add("input-invalid");
+}
+
+
+function validateAssignmentForm() {
+
+    clearValidationErrors();
+
+
+    let isValid = true;
+
+
+    const title =
+        titleInput.value.trim();
+
+    const course =
+        courseSelect.value;
+
+    const dueDate =
+        dueDateInput.value;
+
+    const priority =
+        priorityInput.value;
+
+    const description =
+        descriptionInput.value.trim();
+
+
+    /*
+     * Assignment title
+     */
+
+    if (!title) {
+
+        setValidationError(
+            titleInput,
+            "title-error",
+            "Assignment title is required."
+        );
+
+        isValid = false;
+
+    } else if (title.length < 3) {
+
+        setValidationError(
+            titleInput,
+            "title-error",
+            "Assignment title must be at least 3 characters."
+        );
+
+        isValid = false;
+    }
+
+
+    /*
+     * Course
+     */
+
+    if (!course) {
+
+        setValidationError(
+            courseSelect,
+            "course-error",
+            "Please select a course."
+        );
+
+        isValid = false;
+    }
+
+
+    /*
+     * Due date
+     */
+
+    if (!dueDate) {
+
+        setValidationError(
+            dueDateInput,
+            "due-date-error",
+            "Due date is required."
+        );
+
+        isValid = false;
+
+    } else if (dueDate < getTodayDateString()) {
+
+        setValidationError(
+            dueDateInput,
+            "due-date-error",
+            "Due date cannot be in the past."
+        );
+
+        isValid = false;
+    }
+
+
+    /*
+     * Priority
+     */
+
+    if (!priority) {
+
+        setValidationError(
+            priorityInput,
+            "priority-error",
+            "Please select a priority."
+        );
+
+        isValid = false;
+    }
+
+
+    /*
+     * Description
+     */
+
+    if (!description) {
+
+        setValidationError(
+            descriptionInput,
+            "description-error",
+            "Assignment description is required."
+        );
+
+        isValid = false;
+
+    } else if (description.length < 5) {
+
+        setValidationError(
+            descriptionInput,
+            "description-error",
+            "Description must be at least 5 characters."
+        );
+
+        isValid = false;
+    }
+
+
+    return isValid;
 }
 
 
@@ -554,6 +766,9 @@ function editAssignment(id) {
         "Save Changes";
 
 
+    clearValidationErrors();
+
+
     assignmentForm.scrollIntoView({
         behavior: "smooth",
         block: "start"
@@ -616,56 +831,89 @@ assignmentForm.addEventListener(
         event.preventDefault();
 
 
+        if (!validateAssignmentForm()) {
+
+            const firstInvalidField =
+                document.querySelector(
+                    ".input-invalid"
+                );
+
+
+            if (firstInvalidField) {
+                firstInvalidField.focus();
+            }
+
+
+            return;
+        }
+
+
         const editingId =
             Number(
                 assignmentForm.dataset.editingId
             );
 
 
-        if (!editingId) {
-            return;
-        }
+        if (editingId) {
+
+            const assignment =
+                assignments.find(
+                    (item) => item.id === editingId
+                );
 
 
-        const assignment =
-            assignments.find(
-                (item) => item.id === editingId
+            if (!assignment) {
+                return;
+            }
+
+
+            assignment.title =
+                titleInput.value.trim();
+
+            assignment.course =
+                courseSelect.value;
+
+            assignment.dueDate =
+                dueDateInput.value;
+
+            assignment.priority =
+                priorityInput.value;
+
+            assignment.description =
+                descriptionInput.value.trim();
+
+
+        } else {
+
+            const newAssignment = {
+
+                id:
+                    Date.now(),
+
+                title:
+                    titleInput.value.trim(),
+
+                course:
+                    courseSelect.value,
+
+                dueDate:
+                    dueDateInput.value,
+
+                priority:
+                    priorityInput.value,
+
+                description:
+                    descriptionInput.value.trim(),
+
+                completed:
+                    false
+            };
+
+
+            assignments.push(
+                newAssignment
             );
-
-
-        if (!assignment) {
-            return;
         }
-
-
-        assignment.title =
-            document.getElementById(
-                "assignment-title"
-            ).value;
-
-
-        assignment.course =
-            document.getElementById(
-                "course"
-            ).value;
-
-
-        assignment.dueDate =
-            document.getElementById(
-                "due-date"
-            ).value;
-
-
-        assignment.priority =
-            document.getElementById(
-                "priority"
-            ).value;
-
-
-        assignment.description =
-            document.getElementById(
-                "description"
-            ).value;
 
 
         delete assignmentForm.dataset.editingId;
@@ -680,6 +928,9 @@ assignmentForm.addEventListener(
 
 
         assignmentForm.reset();
+
+
+        clearValidationErrors();
 
 
         updateStatistics();
