@@ -1,3 +1,5 @@
 # Conflict Demonstration
 
-This file is used to demonstrate a Git Delete vs Modify conflict.
+This file has been updated by SWambati.
+
+The file is being modified as part of the conflict exercise.
