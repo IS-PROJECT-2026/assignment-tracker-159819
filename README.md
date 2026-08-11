@@ -1,4 +1,4 @@
-# Assignment Tracker
+# Assignment Tracker System
 
 A lightweight web-based system for managing and tracking academic assignments.
 
