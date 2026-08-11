@@ -189,6 +189,8 @@ function getTodayDateString() {
 }
 
 
+/* Validation */
+
 function clearValidationErrors() {
 
     const errorElements =
@@ -252,10 +254,6 @@ function validateAssignmentForm() {
         descriptionInput.value.trim();
 
 
-    /*
-     * Assignment title
-     */
-
     if (!title) {
 
         setValidationError(
@@ -278,10 +276,6 @@ function validateAssignmentForm() {
     }
 
 
-    /*
-     * Course
-     */
-
     if (!course) {
 
         setValidationError(
@@ -293,10 +287,6 @@ function validateAssignmentForm() {
         isValid = false;
     }
 
-
-    /*
-     * Due date
-     */
 
     if (!dueDate) {
 
@@ -320,10 +310,6 @@ function validateAssignmentForm() {
     }
 
 
-    /*
-     * Priority
-     */
-
     if (!priority) {
 
         setValidationError(
@@ -335,10 +321,6 @@ function validateAssignmentForm() {
         isValid = false;
     }
 
-
-    /*
-     * Description
-     */
 
     if (!description) {
 
@@ -365,6 +347,8 @@ function validateAssignmentForm() {
     return isValid;
 }
 
+
+/* Search and filtering */
 
 function getFilteredAssignments() {
 
@@ -426,6 +410,8 @@ function sortAssignments(assignmentsToSort) {
     return sortedAssignments;
 }
 
+
+/* Statistics */
 
 function updateStatistics() {
 
@@ -514,6 +500,49 @@ function updateProgressIndicator(
 }
 
 
+/* Empty state */
+
+function renderEmptyState(type) {
+
+    const emptyState =
+        document.createElement("div");
+
+    emptyState.className =
+        "empty-state";
+
+
+    if (type === "no-assignments") {
+
+        emptyState.innerHTML = `
+            <h3>No assignments yet</h3>
+
+            <p>
+                Add your first assignment using
+                the form above.
+            </p>
+        `;
+
+    } else {
+
+        emptyState.innerHTML = `
+            <h3>No matching assignments</h3>
+
+            <p>
+                Try changing your search or
+                course filter.
+            </p>
+        `;
+    }
+
+
+    assignmentList.appendChild(
+        emptyState
+    );
+}
+
+
+/* Assignment rendering */
+
 function renderAssignments() {
 
     assignmentList.innerHTML = "";
@@ -524,7 +553,9 @@ function renderAssignments() {
 
 
     const sortedAssignments =
-        sortAssignments(filteredAssignments);
+        sortAssignments(
+            filteredAssignments
+        );
 
 
     assignmentCount.textContent =
@@ -533,6 +564,26 @@ function renderAssignments() {
                 ? "assignment"
                 : "assignments"
         }`;
+
+
+    if (assignments.length === 0) {
+
+        renderEmptyState(
+            "no-assignments"
+        );
+
+        return;
+    }
+
+
+    if (sortedAssignments.length === 0) {
+
+        renderEmptyState(
+            "no-results"
+        );
+
+        return;
+    }
 
 
     sortedAssignments.forEach((assignment) => {
@@ -675,7 +726,9 @@ function attachAssignmentListeners() {
         button.addEventListener("click", () => {
 
             const assignmentId =
-                Number(button.dataset.assignmentId);
+                Number(
+                    button.dataset.assignmentId
+                );
 
             editAssignment(assignmentId);
         });
@@ -691,7 +744,9 @@ function attachAssignmentListeners() {
         button.addEventListener("click", () => {
 
             const assignmentId =
-                Number(button.dataset.assignmentId);
+                Number(
+                    button.dataset.assignmentId
+                );
 
 
             const confirmed =
@@ -701,7 +756,9 @@ function attachAssignmentListeners() {
 
 
             if (confirmed) {
-                deleteAssignment(assignmentId);
+                deleteAssignment(
+                    assignmentId
+                );
             }
         });
     });
@@ -716,18 +773,26 @@ function attachAssignmentListeners() {
         button.addEventListener("click", () => {
 
             const assignmentId =
-                Number(button.dataset.assignmentId);
+                Number(
+                    button.dataset.assignmentId
+                );
 
-            toggleAssignmentCompletion(assignmentId);
+            toggleAssignmentCompletion(
+                assignmentId
+            );
         });
     });
 }
 
 
+/* Assignment editing */
+
 function editAssignment(id) {
 
     const assignment =
-        assignments.find((item) => item.id === id);
+        assignments.find(
+            (item) => item.id === id
+        );
 
 
     if (!assignment) {
@@ -735,27 +800,28 @@ function editAssignment(id) {
     }
 
 
-    document.getElementById("assignment-title").value =
+    titleInput.value =
         assignment.title;
 
 
-    document.getElementById("course").value =
+    courseSelect.value =
         assignment.course;
 
 
-    document.getElementById("due-date").value =
+    dueDateInput.value =
         assignment.dueDate;
 
 
-    document.getElementById("priority").value =
+    priorityInput.value =
         assignment.priority;
 
 
-    document.getElementById("description").value =
+    descriptionInput.value =
         assignment.description;
 
 
-    assignmentForm.dataset.editingId = id;
+    assignmentForm.dataset.editingId =
+        id;
 
 
     formTitle.textContent =
@@ -775,6 +841,8 @@ function editAssignment(id) {
     });
 }
 
+
+/* Assignment deletion */
 
 function deleteAssignment(id) {
 
@@ -801,6 +869,8 @@ function deleteAssignment(id) {
 }
 
 
+/* Assignment completion */
+
 function toggleAssignmentCompletion(id) {
 
     const assignment =
@@ -823,6 +893,8 @@ function toggleAssignmentCompletion(id) {
     renderAssignments();
 }
 
+
+/* Form submission */
 
 assignmentForm.addEventListener(
     "submit",
@@ -882,7 +954,6 @@ assignmentForm.addEventListener(
             assignment.description =
                 descriptionInput.value.trim();
 
-
         } else {
 
             const newAssignment = {
@@ -940,6 +1011,8 @@ assignmentForm.addEventListener(
 );
 
 
+/* Search */
+
 searchInput.addEventListener(
     "input",
     () => {
@@ -947,6 +1020,8 @@ searchInput.addEventListener(
     }
 );
 
+
+/* Course filter */
 
 courseFilter.addEventListener(
     "change",
@@ -956,6 +1031,8 @@ courseFilter.addEventListener(
 );
 
 
+/* Deadline sort */
+
 deadlineSort.addEventListener(
     "change",
     () => {
@@ -963,6 +1040,8 @@ deadlineSort.addEventListener(
     }
 );
 
+
+/* Application startup */
 
 populateCourses();
 
