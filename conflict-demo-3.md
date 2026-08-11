@@ -1,5 +1,5 @@
 # File Rename Conflict Demonstration
 
-This file is used to demonstrate a Git file rename conflict.
+This file has been modified by SWambati.
 
-The original filename is intentionally shared by two branches.
+The original filename is being retained on this branch.
