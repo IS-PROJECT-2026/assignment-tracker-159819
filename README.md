@@ -1,4 +1,4 @@
-# Assignment Tracker
+# Assignment Tracker for Computer Science Students
 
 A lightweight web-based system for managing and tracking academic assignments.
 
